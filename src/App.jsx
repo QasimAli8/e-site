@@ -12,6 +12,7 @@ import Footer from './components/Footer'
 import SingleProduct from './pages/SingleProduct'
 import CategoryProduct from './pages/CategoryProduct'
 import { useCart } from './context/CardContext'
+import ProtectedRoute from './components/ProtectedRoute'
 const App = () => {
     const [location, setLocation] = useState();
     const [openDropDown, setOpenDropDown] = useState(false)
@@ -21,7 +22,7 @@ const App = () => {
     const getLocation = async () => {
         navigator.geolocation.getCurrentPosition(async pos => {
             const
-            { latitude, longitude } = pos.coords
+                { latitude, longitude } = pos.coords
             const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
             try {
                 const location = await axios.get(url)
@@ -60,9 +61,7 @@ const App = () => {
                 <Route path='/products/:id' element={<SingleProduct />} />
                 <Route path='/about' element={<About />} />
                 <Route path='/contact' element={<Contact />} />
-                <Route path='/cart' element={<ProtectedRoute>
-                    <Cart location={location} getLocation={getLocation} />
-                </ProtectedRoute>}></Route>
+                <Route path='/cart' element={<ProtectedRoute> <Cart location={location} getLocation={getLocation} /> </ProtectedRoute>}></Route>
             </Routes>
             <Footer />
         </BrowserRouter>
